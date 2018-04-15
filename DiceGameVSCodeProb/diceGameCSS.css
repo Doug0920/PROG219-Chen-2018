@@ -17,3 +17,10 @@ input {
     margin-bottom: .5em;
 }
 span { color: red; }
+#endMessage{
+    text-align: center;
+    font-size: 3em;
+    top: 30%;
+    width: 670px;
+    color: peru;
+}

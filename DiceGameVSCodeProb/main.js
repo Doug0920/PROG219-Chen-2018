@@ -5,16 +5,15 @@ $( document ).ready(function() {
     let $image2=$("#image2");
     let $buttonBet=$("#ButtonBet");
     let diceGame={
-
     }
-    player1=new Player("AlwaysWin",$("#player1"));
-    player2=new Player("AlwaysLose",$("#player2"));
-    player3=new Player("AlwaysTie",$("#player3"));
-    let players=[player1,player2,player3];
-    for(let i=0;i<players.length;i++){//update player name in each player status
-        players[i].$playerRef.find(".playerName").text(players[i].name);
+    let player1=new Player("AlwaysWin",$("#player1"));
+    let player2=new Player("AlwaysLose",$("#player2"));
+    let player3=new Player("AlwaysTie",$("#player3"));
+    diceGame.players=[player1,player2,player3];
+    for(let i=0;i<diceGame.players.length;i++){//update player name in each player status
+        diceGame.players[i].$playerRef.find(".playerName").text(diceGame.players[i].name);
     }
-    let currentPlayerPointer=0;//start pointer with first player
+    diceGame.currentPlayerPointer=0;//start pointer with first player
     $(".playerName").css( "color", "purple" );
     $buttonBet.click(function() {//click event on the "ButtonBet" button
         let dice1=new Dice();
@@ -26,18 +25,21 @@ $( document ).ready(function() {
             console.log("first dice is ",dice1.point);
             console.log("second dice is ",dice2.point);
             //any player's balance is 0, will out the game.
-            players[currentPlayerPointer].playThisRound(dice1.point,dice2.point);
-            if(players[currentPlayerPointer].balance===0){//if player's balance is zero remove from the players array
-                players.splice(currentPlayerPointer,1);
-                console.log(players);
+            diceGame.players[diceGame.currentPlayerPointer].playThisRound(dice1.point,dice2.point);
+            if(diceGame.players[diceGame.currentPlayerPointer].balance===0){//if player's balance is zero remove from the players array
+            diceGame.players.splice(diceGame.currentPlayerPointer,1);
             }
             else{//move to the next player
-                currentPlayerPointer++;
+                diceGame.currentPlayerPointer++;
             }
-            if(currentPlayerPointer>=players.length){//player pointer move from the last one to the first one.
-                currentPlayerPointer=0;
+            if(diceGame.currentPlayerPointer>=diceGame.players.length){//player pointer move from the last one to the first one.
+                diceGame.currentPlayerPointer=0;
             }
-
+            if(diceGame.players.length===1){//only last player left, end game.
+                $buttonBet.css("display","none");
+                $("#status").after("<div id=\"endMessage\"></div>");
+                $("#endMessage").text(diceGame.players[0].name+", Congratulations! You win the game!");
+            }
             // add validate game end code here.--------------------------------------------------------------->need work
            $buttonBet.prop('disabled', false);//cancel disable the "ButtonBet" button
         },rollingTime);
