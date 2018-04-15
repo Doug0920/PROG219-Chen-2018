@@ -1,5 +1,5 @@
 let Player1={
-    name: Player1
+    name: 'Player1',
     round:0,
     balance:5,
     //   following may be part of Game object instead
@@ -17,7 +17,7 @@ let Player1={
 }
 
 let Player2={
-    name: Puppy
+    name: 'Puppy',
     round:0,
     balance:5,
     //   following may be part of Game object instead
@@ -33,8 +33,8 @@ let Player2={
         
     }
 }
-let Player1={
-    name: Kitten
+let Player3={
+    name: 'Kitten',
     round:0,
     balance:5,
     //   following may be part of Game object instead

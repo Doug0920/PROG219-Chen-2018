@@ -1,13 +1,13 @@
 // Dice object definition
 
 let Dice=function(img1, img2) {	//dice constructor for a pair of dice
-	let this.imageDice1 = img1;	// jQuery DOM object to show the dice1 image
-	let this.imageDice2 = img2;	// jQuery DOM object to show the dice2 image
-	let this.point1;			// undefined before roll
-	let this.point2;
+	this.imageDice1 = img1;	// jQuery DOM object to show the dice1 image
+	this.imageDice2 = img2;	// jQuery DOM object to show the dice2 image
+	this.point1;			// undefined before roll
+	this.point2;
 	
     this.roll=function(inputRollingTime){//inputRollingTime is rolling time, roll 2 dice
-    	if inputRollingTime < 51) {	
+    	if (inputRollingTime < 51) {	
     		inputRollingTime = 51;		// require one interval pass, uses last point1, point2
     	}
         let diceRolling =setInterval((
