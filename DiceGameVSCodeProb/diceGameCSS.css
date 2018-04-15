@@ -18,9 +18,10 @@ input {
 }
 span { color: red; }
 #endMessage{
+    position: absolute;
     text-align: center;
     font-size: 3em;
-    top: 30%;
     width: 670px;
+    top: -200px;
     color: peru;
 }

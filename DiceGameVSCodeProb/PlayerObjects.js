@@ -32,7 +32,7 @@ let Player=function(pName,$inputPlayerRef){
             $status.text("Total is "+(dice1Point+dice2Point)+". You lost this round.");//update lost this round information
             this.balance=this.balance-1;
         }
-        $status.prepend(this.name+". ");
+        $status.prepend(this.name+". ");//add player name in status.
         $balance.text(this.balance);//update balance status
     }
 }

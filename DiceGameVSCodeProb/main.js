@@ -35,12 +35,12 @@ $( document ).ready(function() {
             if(diceGame.currentPlayerPointer>=diceGame.players.length){//player pointer move from the last one to the first one.
                 diceGame.currentPlayerPointer=0;
             }
-            if(diceGame.players.length===1){//only last player left, end game.
-                $buttonBet.css("display","none");
+            if(diceGame.players.length===1){//only one player left, end game.
+                $buttonBet.hide();//hide the button
                 $("#status").after("<div id=\"endMessage\"></div>");
                 $("#endMessage").text(diceGame.players[0].name+", Congratulations! You win the game!");
+                $("div").animate({top: '500px'},2500);
             }
-            // add validate game end code here.--------------------------------------------------------------->need work
            $buttonBet.prop('disabled', false);//cancel disable the "ButtonBet" button
         },rollingTime);
     });
