@@ -1,7 +1,9 @@
 $( document ).ready(function() {
     let lastPlayerPointer;//pointer for last player.
     let playerNumber;
+    let rollingTime=1000;//rolling animation time
     let $welcomeBox=$("#welcomeBox");
+    let $buttonBet=$("#ButtonBet");
     //add a div for ask how many players will play the game.
     $welcomeBox.append("<div  id=\"playerNumberBox\"><p>How many players? Between 2 to 8.</p><input type=\"number\" id=\"playersNumber\"/><button id=\"playersNumberButton\">Submit</button></div>");
     $welcomeBox.append("<div  id=\"playerNameBox\"></div>");
@@ -19,19 +21,22 @@ $( document ).ready(function() {
         for(let i=playerNumber;i>0;i--){//add input for each players' name
             $("#playerNameBox").prepend("<p>Input player"+i+"\'s name:</p><input class=\"iPlayerName\"></input>");
         }
+        $("#playerNameBox").prepend("<p>If you left any input name blank, you will get a random name.</p>");
     });
-    $("#startGame").click(()=>{//start game, create players in dice object, add players status html content in DOM.
+    //start game, create players in dice object, add players status html content in DOM.
+    $("#startGame").click(()=>{
         if(playerNumber>1){
+            // add players' html content
             for(let i=playerNumber;i>1;i--){
                 $("#player1").after("<p id=\"player"+i+"\"><span class=\"playerName\"></span> balance is $<span class=\"balance\">5</span><br />Number of turns <span class=\"turnCount\">0</span></p>");
             }
-            let nameArray=[];
+            //create players in game object with link their dom ref by jequry
             $(".iPlayerName").each(function(index){
                 let playerName=$(this).val();
                 if(playerName===""){//if there is no input name, create a random name;
                     playerName=diceGame.createRandomName();
                 }
-                diceGame.players.push(new Player(playerName,$("#player"+(index+1))));//create players in game object with link their dom ref by jequry
+                diceGame.players.push(new Player(playerName,$("#player"+(index+1))));
             });
         }
         //add welcome message for all player.
@@ -45,10 +50,9 @@ $( document ).ready(function() {
         lastPlayerPointer=diceGame.players.length - 1;// set last one in the players arrary as last player
         $welcomeBox.hide();//hide welcome page
     });
-    let rollingTime=1000;//rolling animation time
-    let $buttonBet=$("#ButtonBet");
-    //click event on the "ButtonBet" button
+    //click event on the "ButtonBet" button,play the game one by one
     $buttonBet.click(function() {
+        //create two dice for this round
         let $image1=$("#image1");
         let $image2=$("#image2");
         let dice1=new Dice();
