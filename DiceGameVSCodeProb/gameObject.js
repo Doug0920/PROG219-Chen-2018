@@ -26,3 +26,36 @@ let diceGame={
         $balance.text(playerObject.balance);//update balance status
     }
 }
+function createRandomName() {
+	let firstArray = [
+		"Big",
+		"Little",
+		"Clumsy",
+		"Brainy",
+		"Lefty",
+		"Righty"
+	];
+	let lastArray = [
+		"Larry",
+		"Susie",
+		"Juan",
+		"Gloria",
+		"Min",
+		"Jing",
+		"Francis",
+		"Lexi"
+	];
+	let returnName = "";
+	while (returnName == ""){
+    	returnName = firstArray[Math.floor(Math.random() * firstArray.length)] + " " +
+    		lastArray[Math.floor(Math.random() * lastArray.length)];
+    	// check for duplicate
+    	diceGame.players.length
+    	for (i=0; i < diceGame.players.length; i++) {
+    		if (returnName == diceGame.players[i].name) {
+    			returnName = "";
+    		}
+    	}
+	}
+	return returnName;
+} 
