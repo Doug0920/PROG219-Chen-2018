@@ -1,4 +1,5 @@
 $( document ).ready(function() {
+    let lastPlayerPointer;//pointer for last player.
     let playerNumber;
     let $welcomeBox=$("#welcomeBox");
     //add a div for ask how many players will play the game.
@@ -6,7 +7,7 @@ $( document ).ready(function() {
     $welcomeBox.append("<div  id=\"playerNameBox\"></div>");
     $("#playerNameBox").append("<br/><br/><button id=\"startGame\">Start the game!</button>");
     $("#playerNameBox").hide();
-    //jump to the div input players' names.
+    //jump to the div input players' names div.
     $("#playersNumberButton").click(()=>{
         playerNumber=$("#playersNumber").val();
         if(!(playerNumber>1&&playerNumber<=8)){
@@ -19,15 +20,18 @@ $( document ).ready(function() {
             $("#playerNameBox").prepend("<p>Input player"+i+"\'s name:</p><input class=\"iPlayerName\"></input>");
         }
     });
-    $("#startGame").click(()=>{
+    $("#startGame").click(()=>{//start game, create players in dice object, add players status html content in DOM.
         if(playerNumber>1){
             for(let i=playerNumber;i>1;i--){
                 $("#player1").after("<p id=\"player"+i+"\"><span class=\"playerName\"></span> balance is $<span class=\"balance\">5</span><br />Number of turns <span class=\"turnCount\">0</span></p>");
             }
             let nameArray=[];
             $(".iPlayerName").each(function(index){
-                console.log($(this).val())
-                diceGame.players.push(new Player($(this).val(),$("#player"+(index+1))));//create players in game object with link their dom ref by jequry
+                let playerName=$(this).val();
+                if(playerName===""){//if there is no input name, create a random name;
+                    playerName=diceGame.createRandomName();
+                }
+                diceGame.players.push(new Player(playerName,$("#player"+(index+1))));//create players in game object with link their dom ref by jequry
             });
         }
         //add welcome message for all player.
@@ -38,11 +42,10 @@ $( document ).ready(function() {
             $("#status").append(" "+diceGame.players[i].name+".");
         }
         $(".playerName").css( "color", "purple" );
-        $welcomeBox.hide();
+        lastPlayerPointer=diceGame.players.length - 1;// set last one in the players arrary as last player
+        $welcomeBox.hide();//hide welcome page
     });
     let rollingTime=1000;//rolling animation time
-    let $buttonRestart=$("#ButtonRestart");
-    $buttonRestart.hide();//hide the button
     let $buttonBet=$("#ButtonBet");
     //click event on the "ButtonBet" button
     $buttonBet.click(function() {
@@ -52,7 +55,6 @@ $( document ).ready(function() {
         let dice2=new Dice();
         dice1.rolling(rollingTime,$image1);
         dice2.rolling(rollingTime,$image2);
-        let lastPlayerPointer=diceGame.players.length - 1;
         $buttonBet.prop('disabled', true);//disable the "ButtonBet" button
         //change last player background color back to lightblue, change this round background color to white
         diceGame.players[lastPlayerPointer].$playerRef.css("background-color","lightblue");
@@ -80,8 +82,8 @@ $( document ).ready(function() {
                 $buttonBet.hide();//hide the button
                 $("#status").after("<div id=\"endMessage\"></div>");
                 $("#endMessage").text(diceGame.players[0].name+", Congratulations! You win the game!");
-                $("div").animate({top: '500px'},2500);
-                $buttonRestart.show();// show the Restart button
+                $("#endMessage").append("<br/><button id=\"ButtonRestart\" type=\"button\" onclick=\"location.reload(false);\">Restart Game</button>");
+                $("div").animate({top: '200px'},2500);
             }
            $buttonBet.prop('disabled', false);//cancel disable the "ButtonBet" button
         },rollingTime);
