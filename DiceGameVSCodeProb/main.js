@@ -65,7 +65,7 @@ $( document ).ready(function() {
         dice2.rolling(rollingTime,$image2);
         $buttonBet.prop('disabled', true);//disable the "ButtonBet" button
         //change last player background color back to lightblue, change this round background color to white
-        diceGame.players[lastPlayerPointer].$playerRef.css("background-color","lightblue");
+        diceGame.players[lastPlayerPointer].$playerRef.css("background-color","#e0e0ff");
         diceGame.players[diceGame.currentPlayerPointer].$playerRef.css("background-color","white");
         // after delay for dice rolling, run game result, update display information
         setTimeout(()=>{
