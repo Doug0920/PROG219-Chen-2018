@@ -2,6 +2,10 @@ $( document ).ready(function() {
     let lastPlayerPointer;//pointer for last player.
     let playerNumber;
     let rollingTime=1000;//rolling animation time
+    let $image1=$("#image1");
+    let $image2=$("#image2");
+    let dice1=new Dice();
+    let dice2=new Dice();
     let $welcomeBox=$("#welcomeBox");
     let $buttonBet=$("#ButtonBet");
     //add a div for ask how many players will play the game.
@@ -18,9 +22,10 @@ $( document ).ready(function() {
         }
         $("#playerNumberBox").hide();
         $("#playerNameBox").show();
-        for(let i=playerNumber;i>0;i--){//add input for each players' name
+        for(let i=playerNumber;i>1;i--){//add input for each players' name. Player 1 always "Player" default
             $("#playerNameBox").prepend("<p>Input player"+i+"\'s name:</p><input class=\"iPlayerName\"></input>");
         }
+        $("#playerNameBox").prepend("<p>Player1\'s name:</p><input class=\"iPlayerName\" value=\"Player\"></input>");
         $("#playerNameBox").prepend("<p>If you left any input name blank, you will get a random name.</p>");
     });
     //start game, create players in dice object, add players status html content in DOM.
@@ -28,9 +33,9 @@ $( document ).ready(function() {
         if(playerNumber>1){
             // add players' html content
             for(let i=playerNumber;i>1;i--){
-                $("#player1").after("<p id=\"player"+i+"\"><span class=\"playerName\"></span> balance is $<span class=\"balance\">5</span><br />Number of turns <span class=\"turnCount\">0</span></p>");
+                $("#player1").after("<p id=\"player"+i+"\"><span class=\"playerName\"></span> balance is $<span class=\"balance\">0</span><br />Number of turns <span class=\"turnCount\">0</span></p>");
             }
-            //create players in game object with link their dom ref by jequry
+            //create players in game object with link their dom ref by jquery
             $(".iPlayerName").each(function(index){
                 let playerName=$(this).val();
                 if(playerName===""){//if there is no input name, create a random name;
@@ -41,22 +46,21 @@ $( document ).ready(function() {
         }
         //add welcome message for all player.
         $("#status").text("Welcome!");
-        //update player name in each player status
+        //update CSV player names in each player status, display starting balance from player object
         for(let i=0;i<diceGame.players.length;i++){
             diceGame.players[i].$playerRef.find(".playerName").text(diceGame.players[i].name);
-            $("#status").append(" "+diceGame.players[i].name+".");
+            $("#status").append(( i > 0 ? ", " : " ")+diceGame.players[i].name);
+            diceGame.players[i].$playerRef.find(".balance").text(diceGame.players[i].balance);//set balance status
         }
+        $("#status").append(".")
+
         $(".playerName").css( "color", "purple" );
-        lastPlayerPointer=diceGame.players.length - 1;// set last one in the players arrary as last player
+        lastPlayerPointer=diceGame.players.length - 1;// set last one in the players array as last player
         $welcomeBox.hide();//hide welcome page
     });
     //click event on the "ButtonBet" button,play the game one by one
     $buttonBet.click(function() {
-        //create two dice for this round
-        let $image1=$("#image1");
-        let $image2=$("#image2");
-        let dice1=new Dice();
-        let dice2=new Dice();
+        //roll existing two dice for this round
         dice1.rolling(rollingTime,$image1);
         dice2.rolling(rollingTime,$image2);
         $buttonBet.prop('disabled', true);//disable the "ButtonBet" button
@@ -68,7 +72,7 @@ $( document ).ready(function() {
             //any player's balance is 0, will exit the game.
             diceGame.playThisRound(dice1.point,dice2.point,diceGame.players[diceGame.currentPlayerPointer]);//play one round
             if(diceGame.players[diceGame.currentPlayerPointer].balance===0){//if player's balance is zero remove from the players array,update players status
-            diceGame.players[diceGame.currentPlayerPointer].$playerRef.css("background-color","black");
+            diceGame.players[diceGame.currentPlayerPointer].$playerRef.css("background-color","#c0c0c0");
             diceGame.players[diceGame.currentPlayerPointer].$playerRef.css("color","white");
             diceGame.players[diceGame.currentPlayerPointer].$playerRef.append("<b style=\"color:yellow\">+++++++>Game Over For You!<+++++++</b>");
             diceGame.players.splice(diceGame.currentPlayerPointer,1);//remove currentplayer from the players
