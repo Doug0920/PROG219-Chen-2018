@@ -30,7 +30,7 @@ $( document ).ready(function() {
                 diceGame.players.push(new Player($(this).val(),$("#player"+(index+1))));//create players in game object with link their dom ref by jequry
             });
         }
-        //add welcome message for three player.
+        //add welcome message for all player.
         $("#status").text("Welcome!");
         //update player name in each player status
         for(let i=0;i<diceGame.players.length;i++){
@@ -41,42 +41,18 @@ $( document ).ready(function() {
         $welcomeBox.hide();
     });
     let rollingTime=1000;//rolling animation time
+    let $buttonRestart=$("#ButtonRestart");
+    $buttonRestart.hide();//hide the button
     let $buttonBet=$("#ButtonBet");
-<<<<<<< HEAD
     //click event on the "ButtonBet" button
     $buttonBet.click(function() {
         let $image1=$("#image1");
         let $image2=$("#image2");
         let dice1=new Dice();
-=======
-    let $buttonRestart=$("#ButtonRestart");
-    $buttonRestart.hide();//hide the button
-    let dice1=new Dice();
-    let dice2=new Dice();
-    //add three players in the game.
-    let player1=new Player("Player",$("#player1"));
-    let player2=new Player("AlwaysLose",$("#player2"));
-    let player3=new Player("AlwaysTie",$("#player3"));
-    // diceGame object created in GameObject.js
-    diceGame.players.push(player1);
-    diceGame.players.push(player2);
-    diceGame.players.push(player3);
-    let lastPlayerPointer=diceGame.players.length - 1;
-    //add welcome message for three player.
-    $("#status").text("Welcome!");
-    //update player name in each player status
-    for(let i=0;i<diceGame.players.length;i++){
-        diceGame.players[i].$playerRef.find(".playerName").text(diceGame.players[i].name);
-        $("#status").append(( i > 0 ? ", " : " ")+diceGame.players[i].name);
-        diceGame.players[i].$playerRef.find(".balance").text(diceGame.players[i].balance);//set balance status
-    }
-    $("#status").append(".")
-    $(".playerName").css( "color", "purple" );
-    //click event on the "ButtonBet" button
-    $buttonBet.click(function() {
->>>>>>> f4a0cfad7bfaafb06aed87b2ff7576519107979f
+        let dice2=new Dice();
         dice1.rolling(rollingTime,$image1);
         dice2.rolling(rollingTime,$image2);
+        let lastPlayerPointer=diceGame.players.length - 1;
         $buttonBet.prop('disabled', true);//disable the "ButtonBet" button
         //change last player background color back to lightblue, change this round background color to white
         diceGame.players[lastPlayerPointer].$playerRef.css("background-color","lightblue");
@@ -104,15 +80,10 @@ $( document ).ready(function() {
                 $buttonBet.hide();//hide the button
                 $("#status").after("<div id=\"endMessage\"></div>");
                 $("#endMessage").text(diceGame.players[0].name+", Congratulations! You win the game!");
-<<<<<<< HEAD
-                $("div").animate({top: '300px'},2500);
-=======
                 $("div").animate({top: '500px'},2500);
                 $buttonRestart.show();// show the Restart button
->>>>>>> f4a0cfad7bfaafb06aed87b2ff7576519107979f
             }
            $buttonBet.prop('disabled', false);//cancel disable the "ButtonBet" button
         },rollingTime);
-    });
-    
+    });    
 });
